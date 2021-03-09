@@ -1,13 +1,13 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {useHistory} from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
-import {postUpdated} from './postsSlice';
+import { postUpdated, selectPostById } from './postsSlice';
 
-export const EditPostForm = ({match}) => {
-  const {postId} = match.params;
+export const EditPostForm = ({ match }) => {
+  const { postId } = match.params;
 
-  const post = useSelector(state => state.posts.find(post => post.id === postId));
+  const post = useSelector(state => selectPostById(state, postId));
 
   const [title, setTitle] = useState(post.title);
   const [content, setContent] = useState(post.content);
@@ -20,7 +20,7 @@ export const EditPostForm = ({match}) => {
 
   const onSavePostClicked = () => {
     if (title && content) {
-      dispatch(postUpdated({id: postId, title: title, content: content}));
+      dispatch(postUpdated({ id: postId, title: title, content: content }));
       history.push(`/posts/${postId}`);
     }
   };
@@ -30,7 +30,7 @@ export const EditPostForm = ({match}) => {
       <h2>Edit Post</h2>
       <form>
         <label htmlFor="postTitle">Post Title:</label>
-        <input 
+        <input
           type="text"
           id="postTitle"
           name="postTitle"
@@ -39,7 +39,7 @@ export const EditPostForm = ({match}) => {
           onChange={onTitleChanged}
         />
         <label htmlFor="postContent">Content: </label>
-        <textarea 
+        <textarea
           id="postContent"
           name="postContent"
           value={content}
