@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import { Link } from 'react-router-dom';
 import { PostAuthor } from './PostAuthor';
-import { selectAllPosts, fetchPosts, selectPostIds, selectPostById } from './postsSlice';
+import { fetchPosts, selectPostIds, selectPostById } from './postsSlice';
 import { ReactionButtons } from './ReactionButtons';
 import { TimeAgo } from './TimeAgo';
 
@@ -32,7 +32,9 @@ export const PostsList = () => {
   const error = useSelector(state => state.posts.error);
 
   useEffect(() => {
+    console.log('useEffect');
     if (postStatus === 'idle') {
+      console.log('idle');
       dispatch(fetchPosts());
     }
   }, [postStatus, dispatch]);
